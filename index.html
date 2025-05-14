@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>📥 Instagram Downloader for PC - Download Videos & Photos Easily</title>
+  <style>
+    /* Reset and base */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin:0; padding:0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+      color: #333;
+      line-height: 1.6;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    /* Sticky header */
+    header {
+      position: sticky;
+      top: 0;
+      background: #4f46e5; /* Indigo-600 */
+      color: white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      z-index: 1000;
+    }
+    .nav-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 20px;
+    }
+    .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .logo svg {
+      width: 32px; height: 32px;
+      fill: #fbbf24; /* Amber-400 */
+    }
+    nav {
+      display: flex;
+      gap: 25px;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    nav a {
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: background-color 0.3s ease;
+    }
+    nav a:hover, nav a:focus {
+      background-color: #a5b4fc; /* Indigo-300 */
+      outline: none;
+    }
+
+    /* Hero section */
+    .hero {
+      max-width: 900px;
+      margin: 40px auto 20px;
+      text-align: center;
+      padding: 0 15px;
+    }
+    .hero h1 {
+      font-size: 2.75rem;
+      color: #4f46e5;
+      margin-bottom: 15px;
+    }
+    .hero p {
+      font-size: 1.25rem;
+      margin-bottom: 30px;
+      font-weight: 600;
+      color: #6b7280; /* Gray-500 */
+    }
+    .url-input {
+      width: 100%;
+      max-width: 550px;
+      padding: 12px 15px;
+      font-size: 1.1rem;
+      border-radius: 35px;
+      border: 2px solid #d1d5db; /* gray-300 */
+      transition: border-color 0.3s ease;
+      margin-bottom: 20px;
+      user-select: text;
+    }
+    .url-input:focus {
+      outline: none;
+      border-color: #4f46e5;
+      box-shadow: 0 0 8px rgba(79, 70, 229, 0.5);
+    }
+    .download-btn {
+      background: linear-gradient(90deg, #f59e0b, #f97316);
+      color: white;
+      font-weight: 700;
+      font-size: 1.25rem;
+      padding: 15px 40px;
+      border: none;
+      border-radius: 35px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(245, 158, 11, 0.6);
+      transition: background 0.4s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      user-select: none;
+    }
+    .download-btn:hover,
+    .download-btn:focus {
+      background: #ea580c;
+      outline: none;
+      box-shadow: 0 6px 18px rgba(234, 88, 12, 0.8);
+    }
+    .download-btn svg {
+      width: 24px; height: 24px;
+      fill: white;
+      animation: bounce 2s infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0);}
+      50% { transform: translateY(-6px);}
+    }
+    .message-box {
+      margin-top: 18px;
+      padding: 10px 15px;
+      max-width: 550px;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 15px;
+      font-size: 1rem;
+      user-select: none;
+    }
+    .message-error {
+      background: #fee2e2;
+      color: #b91c1c;
+      border: 1px solid #fca5a5;
+    }
+    .message-success {
+      background: #dcfce7;
+      color: #15803d;
+      border: 1px solid #86efac;
+    }
+
+    /* Ads containers */
+    .ad-container {
+      max-width: 728px;
+      margin: 20px auto;
+      height: 90px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      background: white;
+    }
+
+    /* Testimonials */
+    .testimonials {
+      max-width: 1100px;
+      margin: 60px auto 30px;
+      padding: 0 15px;
+    }
+    .testimonials h2 {
+      text-align: center;
+      font-size: 2rem;
+      color: #4f46e5;
+      margin-bottom: 40px;
+      font-weight: 700;
+    }
+    .testimonial-cards {
+      display: flex;
+      gap: 25px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .testimonial-card {
+      background: white;
+      box-shadow: 0 0 15px rgb(79 70 229 / 0.15);
+      border-radius: 15px;
+      flex: 1 1 300px;
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      transition: transform 0.3s ease;
+      color: #1e293b; /* Slate-800 */
+    }
+    .testimonial-card:hover {
+      transform: translateY(-10px);
+    }
+    .testimonial-emoji {
+      font-size: 3rem;
+      text-align: center;
+    }
+    .testimonial-text {
+      font-size: 1.1rem;
+      font-style: italic;
+      flex-grow: 1;
+      color: #374151; /* Gray-700 */
+    }
+    .testimonial-author {
+      font-weight: 700;
+      text-align: right;
+      color: #4f46e5;
+    }
+
+    /* FAQ section */
+    .faqs {
+      max-width: 1100px;
+      margin: 60px auto 60px;
+      padding: 0 15px;
+    }
+    .faqs h2 {
+      text-align: center;
+      font-size: 2rem;
+      color: #4f46e5;
+      margin-bottom: 40px;
+      font-weight: 700;
+    }
+    .faq-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 25px;
+      justify-content: center;
+    }
+    .faq-card {
+      background: white;
+      box-shadow: 0 0 15px rgb(79 70 229 / 0.2);
+      border-radius: 15px;
+      flex: 1 1 280px;
+      padding: 25px;
+      cursor: pointer;
+      transition: box-shadow 0.3s ease;
+    }
+    .faq-card:hover {
+      box-shadow: 0 0 25px rgb(79 70 229 / 0.4);
+    }
+    .faq-question {
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #4f46e5;
+    }
+    .faq-answer {
+      font-size: 1rem;
+      color: #374151;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+    .faq-card.active .faq-answer {
+      max-height: 500px;
+      margin-top: 10px;
+    }
+    .faq-toggle-icon {
+      font-size: 1.4rem;
+      user-select: none;
+      transition: transform 0.4s ease;
+    }
+    .faq-card.active .faq-toggle-icon {
+      transform: rotate(45deg);
+    }
+
+    /* Footer */
+    footer {
+      background: #4f46e5;
+      color: white;
+      text-align: center;
+      padding: 25px 15px;
+      font-size: 0.95rem;
+      letter-spacing: 0.04em;
+    }
+    footer a {
+      color: #fbbf24;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .testimonial-cards, .faq-cards {
+        flex-direction: column;
+        gap: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="nav-container" role="banner">
+    <a href="#" class="logo" aria-label="Instagram Downloader Home">
+      <!-- Instagram style camera icon -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 2C4.243 2 2 4.243 2 7v10c0 2.757 2.243 5 5 5h10c2.757 0 5-2.243 5-5V7c0-2.757-2.243-5-5-5H7zm0 2h10c1.654 0 3 1.346 3 3v10c0 1.654-1.346 3-3 3H7c-1.654 0-3-1.346-3-3V7c0-1.654 1.346-3 3-3zm5 1a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm0 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm3.5-2.1a.9.9 0 1 1-1.8 0 .9.9 0 0 1 1.8 0z"/></svg>
+      InstaDL
+    </a>
+    <nav role="navigation" aria-label="Primary navigation">
+      <a href="#" tabindex="0">🏠 Home</a>
+      <a href="#" tabindex="0">📥 Instagram Download</a>
+      <a href="#" tabindex="0">🔒 Privacy</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="ad-container" aria-label="Top Google Ad">
+    <script type="text/javascript">
+      atOptions = {
+        'key' : '9e444108ce409887f1051df7ffb512e8',
+        'format' : 'iframe',
+        'height' : 90,
+        'width' : 728,
+        'params' : {}
+      };
+    </script>
+    <script type="text/javascript" src="//www.highperformanceformat.com/9e444108ce409887f1051df7ffb512e8/invoke.js"></script>
+  </div>
+
+  <section class="hero" role="region" aria-label="Instagram Download tool introduction">
+    <h1>📥 Download Instagram Photos &amp; Videos for PC</h1>
+    <p>Fast, free, and easy downloader for Instagram content on your computer! 💻✨</p>
+    <input
+      type="url"
+      id="instagram-url"
+      class="url-input"
+      placeholder="Paste Instagram post or video URL here..."
+      aria-label="Instagram post or video URL input"
+      autocomplete="off"
+      spellcheck="false"
+    />
+    <button class="download-btn" aria-label="Download Instagram Downloader for PC">
+      Download Now
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 20h14v-2H5v2Zm7-9.414-3.293 3.293-1.414-1.414L12 6.758l4.707 4.707-1.414 1.414L13 10.586V17h-2v-6.414Z"/></svg>
+    </button>
+    <div id="message" role="alert" aria-live="polite"></div>
+  </section>
+
+  <div class="ad-container" aria-label="Middle upper Google Ad">
+    <script type="text/javascript">
+      atOptions = {
+        'key' : '9e444108ce409887f1051df7ffb512e8',
+        'format' : 'iframe',
+        'height' : 90,
+        'width' : 728,
+        'params' : {}
+      };
+    </script>
+    <script type="text/javascript" src="//www.highperformanceformat.com/9e444108ce409887f1051df7ffb512e8/invoke.js"></script>
+  </div>
+
+  <!-- Testimonials -->
+  <section class="testimonials" aria-label="User testimonials">
+    <h2>🌟 What Our Users Say</h2>
+    <div class="testimonial-cards">
+      <article class="testimonial-card" tabindex="0" role="article" aria-label="Testimonial from user Sarah">
+        <div class="testimonial-emoji">😍</div>
+        <div class="testimonial-text">"This downloader makes saving Instagram photos unbelievably easy and fast. Highly recommend for PC users!"</div>
+        <div class="testimonial-author">- Sarah K.</div>
+      </article>
+      <article class="testimonial-card" tabindex="0" role="article" aria-label="Testimonial from user Mike">
+        <div class="testimonial-emoji">👍</div>
+        <div class="testimonial-text">"Clean, simple, and free. I downloaded videos without any hassle. Perfect tool for my Instagram needs!"</div>
+        <div class="testimonial-author">- Mike D.</div>
+      </article>
+      <article class="testimonial-card" tabindex="0" role="article" aria-label="Testimonial from user Anna">
+        <div class="testimonial-emoji">💯</div>
+        <div class="testimonial-text">"I love the user-friendly design and the speed of this app. A must-have for Instagram followers on PC."</div>
+        <div class="testimonial-author">- Anna P.</div>
+      </article>
+    </div>
+  </section>
+
+  <div class="ad-container" aria-label="Middle lower Google Ad">
+    <script type="text/javascript">
+      atOptions = {
+        'key' : '9e444108ce409887f1051df7ffb512e8',
+        'format' : 'iframe',
+        'height' : 90,
+        'width' : 728,
+        'params' : {}
+      };
+    </script>
+    <script type="text/javascript" src="//www.highperformanceformat.com/9e444108ce409887f1051df7ffb512e8/invoke.js"></script>
+  </div>
+
+  <!-- FAQ Section -->
+  <section class="faqs" aria-label="Frequently Asked Questions">
+    <h2>❓ Frequently Asked Questions</h2>
+    <div class="faq-cards">
+      <div class="faq-card" tabindex="0">
+        <div class="faq-question">
+          How does the Instagram downloader work? <span class="faq-toggle-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          Simply paste the URL of the Instagram post or video into the downloader, then click the download button to save files on your PC instantly.
+        </div>
+      </div>
+      <div class="faq-card" tabindex="0">
+        <div class="faq-question">
+          Is it free to use? <span class="faq-toggle-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          Yes! Our tool is completely free without any hidden charges or subscriptions.
+        </div>
+      </div>
+      <div class="faq-card" tabindex="0">
+        <div class="faq-question">
+          Do I need to install software? <span class="faq-toggle-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          No installation required. Everything works via your web browser or PC application instantly.
+        </div>
+      </div>
+      <div class="faq-card" tabindex="0">
+        <div class="faq-question">
+          Is it safe to use? <span class="faq-toggle-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          Absolutely! We respect your privacy and never store your personal info or downloads.
+        </div>
+      </div>
+      <div class="faq-card" tabindex="0">
+        <div class="faq-question">
+          Which file formats are supported? <span class="faq-toggle-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          Our downloader supports JPEG, PNG for photos and MP4 for videos downloaded from Instagram posts.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom Ad -->
+  <div class="ad-container" aria-label="Bottom Google Ad">
+    <script type="text/javascript">
+      atOptions = {
+        'key' : '9e444108ce409887f1051df7ffb512e8',
+        'format' : 'iframe',
+        'height' : 90,
+        'width' : 728,
+        'params' : {}
+      };
+    </script>
+    <script type="text/javascript" src="//www.highperformanceformat.com/9e444108ce409887f1051df7ffb512e8/invoke.js"></script>
+  </div>
+
+</main>
+
+<footer>
+  Made with ❤️ by InstaDL • <a href="#" aria-label="Privacy Policy link">Privacy Policy</a> • © 2024
+</footer>
+
+<script>
+  // FAQ accordion toggle
+  document.querySelectorAll('.faq-card').forEach(card => {
+    card.addEventListener('click', () => {
+      card.classList.toggle('active');
+    });
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        card.classList.toggle('active');
+      }
+    });
+  });
+
+  // URL validation for Instagram post or video URL
+  function isValidInstagramURL(url) {
+    try {
+      const parsed = new URL(url);
+      if (
+        (parsed.hostname === 'instagram.com' || parsed.hostname.endsWith('.instagram.com')) &&
+        /^\/(p|reel|tv)\/[a-zA-Z0-9_-]+\/?$/.test(parsed.pathname)
+      ) {
+        return true;
+      }
+      return false;
+    } catch {
+      return false;
+    }
+  }
+
+  const downloadBtn = document.querySelector('.download-btn');
+  const urlInput = document.getElementById('instagram-url');
+  const messageBox = document.getElementById('message');
+
+  downloadBtn.addEventListener('click', () => {
+    const url = urlInput.value.trim();
+    messageBox.textContent = '';
+    messageBox.className = '';
+    if (!url) {
+      messageBox.textContent = "⚠️ Please paste an Instagram post or video URL first!";
+      messageBox.classList.add('message-box', 'message-error');
+      urlInput.focus();
+      return;
+    }
+    if (!isValidInstagramURL(url)) {
+      messageBox.textContent = "❌ That doesn't look like a valid Instagram post URL. Please check and try again.";
+      messageBox.classList.add('message-box', 'message-error');
+      urlInput.focus();
+      return;
+    }
+
+    // Simulate downloading by creating a link to download a dummy txt file
+    const dummyText = `You requested the download of Instagram content from:\n${url}\n\n(Note: This is a demo, actual download isn't supported here.)`;
+    const blob = new Blob([dummyText], { type: 'text/plain' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'Instagram-Content-URL.txt';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    messageBox.textContent = "✅ Your download has started! (Demo file)";
+    messageBox.classList.add('message-box', 'message-success');
+    urlInput.value = '';
+  });
+
+  // Optional: Trigger button click with Enter on input
+  urlInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      downloadBtn.click();
+    }
+  });
+</script>
+
+</body>
+</html>
+
